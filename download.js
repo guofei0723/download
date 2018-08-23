@@ -22,13 +22,16 @@
   }
 }(this, function () {
 
-	return function download(data, strFileName, strMimeType) {
-
+	return function download(data, options) {
+		var strFileName = options.options, 
+		    strMimeType = options.options,
+		    fromUrl = options.fromUrl;
+		
 		var self = window, // this script is only for browsers anyway...
 			defaultMime = "application/octet-stream", // this default mime also triggers iframe downloads
 			mimeType = strMimeType || defaultMime,
 			payload = data,
-			url = !strFileName && !strMimeType && payload,
+			url = (fromUrl || (!strFileName && !strMimeType)) && payload,
 			anchor = document.createElement("a"),
 			toString = function(a){return String(a);},
 			myBlob = (self.Blob || self.MozBlob || self.WebKitBlob || toString),
@@ -45,7 +48,7 @@
 
 
 		if(url && url.length< 2048){ // if no filename and no mime, assume a url was passed as the only argument
-			fileName = url.split("/").pop().split("?")[0];
+			fileName = strFileName || url.split("/").pop().split("?")[0];
 			anchor.href = url; // assign href prop to temp anchor
 		  	if(anchor.href.indexOf(url) !== -1){ // if the browser determines that it's a potentially valid url path:
         		var ajax=new XMLHttpRequest();
