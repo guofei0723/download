@@ -23,8 +23,8 @@
 }(this, function () {
 
 	return function download(data, options) {
-		var strFileName = options.options, 
-		    strMimeType = options.options,
+		var strFileName = options.fileName, 
+		    strMimeType = options.mimeType,
 		    fromUrl = options.fromUrl;
 		
 		var self = window, // this script is only for browsers anyway...
